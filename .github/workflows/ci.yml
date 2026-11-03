@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        compiler: [dmd-latest, ldc-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ${{ matrix.compiler }}
+      - name: Build
+        run: dub build
+      - name: Run unit tests
+        run: dub test
+      - name: Run consumer API tests
+        run: dub run --root=tests/api
+
+  known-answer-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ldc-latest
+      - name: Fetch pinned test vectors
+        run: |
+          git clone https://github.com/KpqC/kpqc-test-vectors.git ../kpqc-test-vectors
+          git -C ../kpqc-test-vectors checkout d75490bf824faa4b148cd0b901a2eb13198fe0da
+      - name: Run known-answer tests
+        env:
+          KPQC_TEST_VECTORS: ../kpqc-test-vectors
+        run: dub run --root=tests/kat --build=release

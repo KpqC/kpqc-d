@@ -1,0 +1,39 @@
+{
+  "name": "kpqc",
+  "description": "D bindings for KpqC post-quantum algorithms",
+  "authors": ["Owen Suolfou"],
+  "copyright": "Copyright (c) 2026 osuolfou",
+  "license": "MIT",
+  "homepage": "https://github.com/KpqC/kpqc-d",
+  "sourcePaths": ["source"],
+  "systemDependencies": "CMake 3.18 or newer and a C11 compiler",
+  "extraDependencyFiles": [
+    "CMakeLists.txt",
+    "tools/build-native.sh",
+    "native/**/*.c",
+    "native/**/*.h"
+  ],
+  "configurations": [
+    {
+      "name": "library",
+      "targetType": "library",
+      "platforms": ["linux", "osx"],
+      "excludedSourceFiles": ["source/kpqc/testing.d"],
+      "lflags-linux": ["$PACKAGE_DIR/.dub/native/libkpqc_native.a", "-lm"],
+      "lflags-osx": ["$PACKAGE_DIR/.dub/native/libkpqc_native.a"],
+      "preBuildCommands-posix": [
+        "sh \"$PACKAGE_DIR/tools/build-native.sh\" \"$PACKAGE_DIR\" library"
+      ]
+    },
+    {
+      "name": "kat",
+      "targetType": "library",
+      "platforms": ["linux", "osx"],
+      "lflags-linux": ["$PACKAGE_DIR/.dub/native-kat/libkpqc_native.a", "-lm"],
+      "lflags-osx": ["$PACKAGE_DIR/.dub/native-kat/libkpqc_native.a"],
+      "preBuildCommands-posix": [
+        "sh \"$PACKAGE_DIR/tools/build-native.sh\" \"$PACKAGE_DIR\" kat"
+      ]
+    }
+  ]
+}

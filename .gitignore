@@ -1,0 +1,8 @@
+/.dub/
+/.dub-home/
+/docs/
+/libkpqc.a
+/kpqc-test-library
+/tests/api/kpqc-api-tests
+/tests/kat/kpqc-kat-tests
+/.DS_Store

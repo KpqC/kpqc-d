@@ -1,0 +1,13 @@
+{
+  "name": "kpqc-kat-tests",
+  "description": "KpqC known-answer tests",
+  "license": "MIT",
+  "targetType": "executable",
+  "sourceFiles": ["main.d"],
+  "dependencies": {
+    "kpqc": { "path": "../.." }
+  },
+  "subConfigurations": {
+    "kpqc": "kat"
+  }
+}

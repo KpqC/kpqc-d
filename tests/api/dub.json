@@ -1,0 +1,10 @@
+{
+  "name": "kpqc-api-tests",
+  "description": "KpqC public API tests",
+  "license": "MIT",
+  "targetType": "executable",
+  "sourceFiles": ["main.d"],
+  "dependencies": {
+    "kpqc": { "path": "../.." }
+  }
+}
